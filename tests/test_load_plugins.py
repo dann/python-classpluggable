@@ -11,7 +11,7 @@ def test_load_plugins():
         os.path.join(os.path.dirname(os.path.realpath(__file__)),
                      'plugins')
     loader = PluginLoader()
-    plugins = loader.load_plugins(plugin_dir)
+    plugins = loader.load_plugins([plugin_dir])
     ok_(len(plugins) == 2)
 
     for plugin in plugins:

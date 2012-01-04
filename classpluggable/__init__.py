@@ -25,10 +25,16 @@ class PluginLoader(object):
         self.plugins = []
         self.suffix = '.py'
 
-    def load_plugins(self, plugin_dir):
+    def load_plugins(self, plugin_dirs):
         if len(self.plugins) > 0:
             return self.plugins
 
+        for plugin_dir in plugin_dirs:
+            self.load_plugins_in(plugin_dir)
+
+        return self.plugins
+
+    def load_plugins_in(self, plugin_dir):
         plugins = self._find_plugins(plugin_dir)
         self._add_path_to_plugins(plugin_dir)
         self._import_plugins(plugins)
