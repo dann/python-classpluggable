@@ -31,7 +31,7 @@ class PluginLoader(object):
 
         plugins = self._find_plugins(plugin_dir)
         self._add_path_to_plugins(plugin_dir)
-        self._import_plugins(plugin_dir, plugins)
+        self._import_plugins(plugins)
         self._register_plugins()
         return self.plugins
 
@@ -44,12 +44,15 @@ class PluginLoader(object):
     def _add_path_to_plugins(self, plugin_dir):
         sys.path.insert(0, plugin_dir)
 
-    def _import_plugins(self, plugin_dir, plugin_files):
+    def _import_plugins(self, plugin_files):
         for plugin in plugin_files:
-            try:
-                __import__(plugin)
-            except ImportError, e:
-                print "couldn't load %s: %s" % (plugin, e)
+            self._import_module(plugin)
+
+    def _import_module(self, module):
+        try:
+            __import__(module)
+        except ImportError, e:
+            print "Couldn't load %s: %s" % (module, e)
 
     def _register_plugins(self):
         for plugin in Plugin.__subclasses__():
